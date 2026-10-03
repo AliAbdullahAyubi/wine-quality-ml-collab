@@ -32,3 +32,12 @@ mlruns/
 .DS_Store
 Thumbs.db
 .vscode/
+
+=======
+# Allow DVC pointer files
+!data/raw/*.dvc
+
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+!models/.gitkeep
+
