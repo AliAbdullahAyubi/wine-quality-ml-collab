@@ -1,0 +1,82 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python src/prepare.py
+    deps:
+    - path: data/raw/winequality-red.csv
+      hash: md5
+      md5: 6a883fd98624e18c0b7ce251f4fab4fb
+      size: 100951
+    - path: src/prepare.py
+      hash: md5
+      md5: b48f31d734209a815eb844bb7d3da6ea
+      size: 1193
+    params:
+      params.yaml:
+        data:
+          raw_path: data/raw/winequality-red.csv
+          processed_path: data/processed/winequality.csv
+          target: quality
+        seed: 42
+        split:
+          test_size: 0.2
+    outs:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 02708e7fdb50c9cc17aa1a72b2b790ca
+      size: 19157
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 3392df3d3fa27a10ba604052715c7f64
+      size: 76075
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 3392df3d3fa27a10ba604052715c7f64
+      size: 76075
+    - path: src/train.py
+      hash: md5
+      md5: 571571f4010661827b3acdb01e8f89fb
+      size: 1400
+    params:
+      params.yaml:
+        model:
+          path: models/model.pkl
+        seed: 42
+        train:
+          model: random_forest
+          n_estimators: 100
+          max_depth: 6
+          min_samples_split: 2
+          min_samples_leaf: 1
+    outs:
+    - path: models/model.pkl
+      hash: md5
+      md5: 6429eff4f8f91915716b5fc04238de38
+      size: 716376
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 02708e7fdb50c9cc17aa1a72b2b790ca
+      size: 19157
+    - path: models/model.pkl
+      hash: md5
+      md5: 6429eff4f8f91915716b5fc04238de38
+      size: 716376
+    - path: src/evaluate.py
+      hash: md5
+      md5: a34c8edb9ed326bb31f8a9f1487a0c2d
+      size: 1427
+    params:
+      params.yaml:
+        evaluate:
+          metrics_path: metrics/metrics.json
+    outs:
+    - path: metrics/metrics.json
+      hash: md5
+      md5: ccd93b3bfee61989104625275282fb8a
+      size: 100
