@@ -10,6 +10,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "dvc>=3.67.1",
     "jupytext>=1.19.5",
     "nbstripout>=0.9.1",
     "pre-commit>=4.6.2",

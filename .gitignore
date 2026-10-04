@@ -15,6 +15,9 @@ data/interim/*
 data/processed/*
 models/*
 !data/raw/.gitkeep
+data/*
+!data/raw/
+!data/raw/winequality-red.csv.dvc
 
 # DVC-managed files are represented by pointer files
 # Ignore generated experiment output
@@ -29,3 +32,12 @@ mlruns/
 .DS_Store
 Thumbs.db
 .vscode/
+
+=======
+# Allow DVC pointer files
+!data/raw/*.dvc
+
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+!models/.gitkeep
+
